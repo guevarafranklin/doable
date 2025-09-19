@@ -1,0 +1,32 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-3xl font-bold text-gray-900">Projects</h1>
+  <%= link_to "New Project", new_project_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+</div>
+<div class="bg-white shadow overflow-hidden sm:rounded-md">
+  <% if @projects.any? %>
+    <ul class="divide-y divide-gray-200">
+      <% @projects.each do |project| %>
+        <li class="px-6 py-4 hover:bg-gray-50">
+          <div class="flex items-center justify-between">
+            <div>
+              <%= link_to project.name, project_path(project), class: "text-lg font-medium text-blue-600 hover:text-blue-800" %>
+              <p class="text-sm text-gray-500">Created <%= project.created_at.strftime("%B %d, %Y") %></p>
+            </div>
+            <div class="flex space-x-2">
+              <%= link_to "Edit", edit_project_path(project), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" %>
+              <%= link_to "Delete", project_path(project), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-900 text-sm font-medium" %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-lg">No projects yet.</p>
+      <%= link_to "Create your first project", new_project_path, class: "mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>
+<div class="actions">
+  <%= link_to "New Project", new_project_path, class: "btn btn-primary" %>
+</div>

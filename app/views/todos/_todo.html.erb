@@ -1,0 +1,59 @@
+<div id="<%= dom_id todo %>" class="space-y-2">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg font-semibold text-gray-900">
+      <%= todo.name %>
+      <% if defined?(todo.completed) && todo.completed %>
+        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          Completed
+        </span>
+      <% end %>
+    </h3>
+    <% if defined?(todo.priority) && todo.priority %>
+      <% priority_class = case todo.priority
+           when 5 then "bg-red-100 text-red-800"
+           when 4 then "bg-orange-100 text-orange-800"
+           when 3 then "bg-yellow-100 text-yellow-800"
+           when 2 then "bg-blue-100 text-blue-800"
+           else "bg-gray-100 text-gray-800"
+           end %>
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= priority_class %>">
+        Priority <%= todo.priority %>
+      </span>
+    <% end %>
+  </div>
+  <% if todo.description.present? %>
+    <% should_truncate = local_assigns.fetch(:truncate, false) %>
+    <div data-controller="reveal" class="text-gray-600 text-sm">
+      <strong>Description:</strong>
+      <% if should_truncate %>
+        <span data-reveal-target="truncated">
+          <%= truncate(todo.description, length: 150, separator: ' ') %>
+          <% if todo.description.length > 150 %>
+            …
+            <button type="button" data-action="reveal#toggle" data-reveal-target="moreLabel" class="text-blue-600 hover:underline ml-1">Show more</button>
+            <button type="button" data-action="reveal#toggle" data-reveal-target="lessLabel" class="text-blue-600 hover:underline ml-1 hidden">Show less</button>
+          <% end %>
+        </span>
+        <span data-reveal-target="full" class="hidden">
+          <%= simple_format(h(todo.description)) %>
+          <button type="button" data-action="reveal#toggle" class="text-blue-600 hover:underline ml-1">Show less</button>
+        </span>
+      <% else %>
+        <%= simple_format(h(todo.description)) %>
+      <% end %>
+    </div>
+  <p class="text-gray-600 text-sm">
+      <strong>Priority:</strong>
+      <%= todo.priority %>
+    </p>
+    <p class="text-gray-600 text-sm">
+      <strong>Project:</strong>
+      <%= todo.project.name if todo.project %>
+    </p>
+  <% end %>
+  <% if defined?(todo.project) && todo.project %>
+    <p class="text-xs text-gray-500">
+      Project: <span class="font-medium"><%= todo.project.name %></span>
+    </p>
+  <% end %>
+</div>

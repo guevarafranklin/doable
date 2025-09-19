@@ -1,0 +1,12 @@
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6">
+    <%= render @todo %>
+  </div>
+</div>
+
+<div class="mt-6 flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">
+  <%= link_to "Edit this todo", edit_todo_path(@todo), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center" %>
+  <%= link_to "← Back to todos", todos_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-center" %>
+  <%= button_to "Delete this todo", @todo, method: :delete, data: { confirm: "Are you sure?" },
+      class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+</div>
